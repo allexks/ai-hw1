@@ -3,6 +3,7 @@
 import unittest
 from solution import Coordinate, State
 
+
 class Tests(unittest.TestCase):
     def test_manhattan_distance_correct(self):
         """Test that manhattan distance computes correctly."""
@@ -16,7 +17,6 @@ class Tests(unittest.TestCase):
         self.assertEqual(expect, result1)
         self.assertEqual(expect, result2)
 
-
     def test_manhattan_distance_equals(self):
         """Test that two same coordinates are equal."""
         c1 = Coordinate(1, 1)
@@ -26,7 +26,6 @@ class Tests(unittest.TestCase):
         self.assertEqual(c1, c2)
         self.assertEqual(0, d)
 
-
     def test_state_coordinates_correct(self):
         """Test that `State.coordinates` produces correct coordinates."""
         matrix = [
@@ -34,7 +33,7 @@ class Tests(unittest.TestCase):
             [4, 5, 6],
             [7, 8, 0],
         ]
-        s = State(matrix, len(matrix))
+        s = State(matrix)
         expect = {
             1: Coordinate(0, 0),
             2: Coordinate(1, 0),
@@ -50,7 +49,6 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(expect, result)
 
-
     def test_heuristics_of_goal_is_zero(self):
         """Test that the heuristic function of the goal state is 0."""
         matrix = [
@@ -58,13 +56,12 @@ class Tests(unittest.TestCase):
             [4, 5, 6],
             [7, 8, 0],
         ]
-        state = State(matrix, len(matrix))
-        goal = State(matrix, len(matrix))
+        state = State(matrix)
+        goal = State(matrix)
 
         result = state.heuristic(goal)
 
         self.assertEqual(0, result)
-
 
     def test_heuristics_correct(self):
         """Test that the heuristic function is generally correct."""
@@ -78,8 +75,8 @@ class Tests(unittest.TestCase):
             [4, 5, 6],
             [7, 8, 0],
         ]
-        s = State(state_matrix, len(state_matrix))
-        g = State(goal_matrix, len(goal_matrix))
+        s = State(state_matrix)
+        g = State(goal_matrix)
         expect = 8
 
         result = s.heuristic(g)
