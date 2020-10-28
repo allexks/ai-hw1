@@ -33,7 +33,6 @@ class State:
             self.matrix[i][j]: Coordinate(j, i)
             for j in range(self.matrix_size)
             for i in range(self.matrix_size)
-            if self.matrix[i][j] != 0
         }
 
     def heuristic(self, goal_state):
@@ -44,4 +43,5 @@ class State:
         return sum(
             coordinate.manhattan_distance(goal_state_coordinates[number])
             for (number, coordinate) in self.coordinates.items()
+            if number != 0
         )

@@ -43,6 +43,7 @@ class Tests(unittest.TestCase):
             6: Coordinate(2, 1),
             7: Coordinate(0, 2),
             8: Coordinate(1, 2),
+            0: Coordinate(2, 2),
         }
 
         result = s.coordinates
