@@ -36,13 +36,13 @@ class Tests(unittest.TestCase):
         s = State(matrix)
         expect = {
             1: Coordinate(0, 0),
-            2: Coordinate(1, 0),
-            3: Coordinate(2, 0),
-            4: Coordinate(0, 1),
+            2: Coordinate(0, 1),
+            3: Coordinate(0, 2),
+            4: Coordinate(1, 0),
             5: Coordinate(1, 1),
-            6: Coordinate(2, 1),
-            7: Coordinate(0, 2),
-            8: Coordinate(1, 2),
+            6: Coordinate(1, 2),
+            7: Coordinate(2, 0),
+            8: Coordinate(2, 1),
             0: Coordinate(2, 2),
         }
 

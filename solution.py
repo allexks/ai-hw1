@@ -2,19 +2,19 @@
 
 
 class Coordinate:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, row, col):
+        self.row = row
+        self.col = col
 
     def __eq__(self, other):
         """Return self == other."""
-        return self.x == other.x and self.y == other.y
+        return self.row == other.row and self.col == other.col
 
     def manhattan_distance(self, other):
         """
         Return the Manhattan distance between self and other.
         """
-        return abs(self.x - other.x) + abs(self.y - other.y)
+        return abs(self.row - other.row) + abs(self.col - other.col)
 
 
 class State:
@@ -29,8 +29,11 @@ class State:
 
     @property
     def coordinates(self):
+        """
+        Return a dictionary with the coordinates in the matrix of each number.
+        """
         return {
-            self.matrix[i][j]: Coordinate(j, i)
+            self.matrix[i][j]: Coordinate(i, j)
             for j in range(self.matrix_size)
             for i in range(self.matrix_size)
         }
