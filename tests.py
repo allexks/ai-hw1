@@ -41,7 +41,6 @@ class Tests(unittest.TestCase):
         self.assertFalse(v2)
         self.assertFalse(v3)
 
-
     def test_coordinates_addition(self):
         """Test that 2 coordinates add up correctly."""
         c1 = Coordinate(1, 2)
