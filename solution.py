@@ -133,6 +133,7 @@ class Node:
     def __lt__(self, other):
         return self.f() < other.f()
 
+
 class Solution:
     def __init__(self):
         self.init_state = None
@@ -218,11 +219,6 @@ class Solution:
             current = current.parent
 
         return result[::-1]
-
-
-
-
-
 
 
 if __name__ == "__main__":
