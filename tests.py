@@ -336,23 +336,37 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(expect, s.init_state.matrix)
 
-    def test_solution_example_basic(self):
-        """Test algorithm with the given basic example."""
-        inp = "8\n"\
-            "-1\n"\
-            "1 2 3\n"\
-            "4 5 6\n"\
-            "0 7 8\n"
+    def test_3x3_depth_2(self):
+        """Test with the given basic example."""
+        self.__load_test_case_from_file("8-2")
 
-        expect = "2\n"\
-            "left\n"\
-            "left\n"
+    def test_3x3_depth_8(self):
+        """Test with a 3x3 board and 8-step solution."""
+        self.__load_test_case_from_file("8-8")
+
+    def test_3x3_depth_21(self):
+        """Test with a 3x3 board and a 21-step solution."""
+        self.__load_test_case_from_file("8-21")
+
+    def test_3x3_depth_31(self):
+        """Test with a 3x3 board and a 31-step solution."""
+        self.__load_test_case_from_file("8-31")
+
+    def __load_test_case_from_file(self, name):
+        folder = "test_cases"
+
+        with open(f"{folder}/{name}.in", "r") as fin:
+            inp = fin.read()
+
+        with open(f"{folder}/{name}.out", "r") as fout:
+            expect = fout.read()
 
         s = Solution()
         s.parse(inp)
         s.solve()
+        result = s.output
 
-        self.assertEqual(expect, s.output)
+        self.assertEqual(expect, result)
 
 
 if __name__ == "__main__":
