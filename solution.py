@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 from math import sqrt
+from queue import PriorityQueue
 
 
 class Coordinate:
@@ -68,6 +69,12 @@ class State:
     def __repr__(self):
         return f"State({self.matrix})"
 
+    def __eq__(self, other):
+        return self.matrix == other.matrix
+
+    def __hash__(self):
+        return hash(tuple(tuple(row) for row in self.matrix))
+
     @property
     def coordinates(self):
         """
@@ -112,6 +119,20 @@ class State:
         return list(zip(states, legal_moves))
 
 
+class Node:
+    def __init__(self, state, goal_state, parent=None, action_name=None):
+        self.state = state
+        self.heuristic = self.state.heuristic(goal_state)
+        self.depth = 0 if parent is None else parent.depth + 1
+        self.parent = parent
+        self.action_name = action_name
+
+    def f(self):
+        return self.depth + self.heuristic
+
+    def __lt__(self, other):
+        return self.f() < other.f()
+
 class Solution:
     def __init__(self):
         self.init_state = None
@@ -153,8 +174,55 @@ class Solution:
         Solve the problem using IDA* algorithm and store the solution
         in `self.output`.
         """
-        # TODO
-        self.output = ""
+        path = self.__astar(self.init_state, self.goal_state)
+        self.output = str(len(path)) + "\n" + "\n".join(path) + "\n"
+
+    def __astar(self, root, goal):
+        if root == goal:
+            return []
+
+        queue = PriorityQueue()
+        expanded = {root}
+        root_node = Node(root, goal)
+
+        # first level
+        moves = root.successors()
+        for move in moves:
+            if move[0] == goal:
+                return [move[1].name]
+            node = Node(move[0], goal, root_node, move[1].name)
+            queue.put(node)
+            expanded.add(move[0])
+
+        # next levels
+        current = root_node
+        while True:
+            current = queue.get()
+
+            if current.state == goal:
+                break
+
+            moves = current.state.successors()
+            for move in moves:
+                if move[0] in expanded:
+                    continue
+
+                node = Node(move[0], goal, current, move[1].name)
+                queue.put(node)
+                expanded.add(move[0])
+
+        # path
+        result = []
+        while current.parent is not None:
+            result.append(current.action_name)
+            current = current.parent
+
+        return result[::-1]
+
+
+
+
+
 
 
 if __name__ == "__main__":

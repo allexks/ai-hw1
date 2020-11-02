@@ -75,6 +75,38 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(expect, result)
 
+    def test_state_eq(self):
+        """Test that two equal states are equal."""
+        matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 0],
+        ]
+
+        s1 = State(matrix)
+        s2 = State(matrix)
+
+        self.assertEqual(s1, s2)
+
+    def test_state_hash(self):
+        """Test that the state hash is deterined by its matrix."""
+        matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 0],
+        ]
+        s = State(matrix)
+        expect_tuple = (
+            (1, 2, 3),
+            (4, 5, 6),
+            (7, 8, 0),
+        )
+        expect = hash(expect_tuple)
+
+        result = hash(s)
+
+        self.assertEqual(expect, result)
+
     def test_heuristics_of_goal_is_zero(self):
         """Test that the heuristic function of the goal state is 0."""
         matrix = [
@@ -303,6 +335,24 @@ class Tests(unittest.TestCase):
         s.parse(inp)
 
         self.assertEqual(expect, s.init_state.matrix)
+
+    def test_solution_example_basic(self):
+        """Test algorithm with the given basic example."""
+        inp = "8\n"\
+            "-1\n"\
+            "1 2 3\n"\
+            "4 5 6\n"\
+            "0 7 8\n"
+
+        expect = "2\n"\
+            "left\n"\
+            "left\n"
+
+        s = Solution()
+        s.parse(inp)
+        s.solve()
+
+        self.assertEqual(expect, s.output)
 
 
 if __name__ == "__main__":
