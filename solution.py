@@ -3,6 +3,7 @@
 from copy import deepcopy
 from math import sqrt
 
+
 class Coordinate:
     def __init__(self, row, col):
         self.row = row
