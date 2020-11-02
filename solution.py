@@ -1,7 +1,7 @@
 """62136"""
 
 from copy import deepcopy
-
+from math import sqrt
 
 class Coordinate:
     def __init__(self, row, col):
@@ -109,3 +109,56 @@ class State:
             states.append(State(new_matrix))
 
         return list(zip(states, legal_moves))
+
+
+class Solution:
+    def __init__(self):
+        self.init_state = None
+        self.goal_state = None
+        self.output = None
+
+    def parse(self, input_str):
+        input_lines = input_str.split('\n')
+        num_tiles = int(input_lines[0])
+        matrix_size = int(sqrt(num_tiles + 1))
+        zero_pos = int(input_lines[1])
+
+        # Goal state
+
+        tiles = list(range(1, num_tiles + 1))
+        if zero_pos == -1:
+            tiles.append(0)
+        else:
+            tiles.insert(zero_pos, 0)
+
+        goal_matrix = [
+            [tiles[i + j] for j in range(matrix_size)]
+            for i in range(0, len(tiles), matrix_size)
+        ]
+
+        self.goal_state = State(goal_matrix)
+
+        # Initial state
+
+        init_matrix = [
+            list(map(int, line.split()))
+            for line in input_lines[2:-1]
+        ]
+
+        self.init_state = State(init_matrix)
+
+    def solve(self):
+        """
+        Solve the problem using IDA* algorithm and store the solution
+        in `self.output`.
+        """
+        # TODO
+        self.output = ""
+
+
+if __name__ == "__main__":
+    from sys import stdin, stdout
+    solution = Solution()
+    solution.parse(stdin.read())
+    solution.solve()
+    stdout.write(solution.output)

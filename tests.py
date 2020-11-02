@@ -1,7 +1,7 @@
 """Unit tests."""
 
 import unittest
-from solution import Coordinate, State
+from solution import Coordinate, State, Solution
 
 
 class Tests(unittest.TestCase):
@@ -207,6 +207,102 @@ class Tests(unittest.TestCase):
         self.assertEqual(4, len(result))
         self.assertEqual(expect_matrixes, [s[0].matrix for s in result])
         self.assertEqual(expect_moves, [s[1].name for s in result])
+
+    def test_parse_goal_state_minus_one(self):
+        """Test that the zero is last in the goal state when -1 is read."""
+        inp = "8\n"\
+            "-1\n"\
+            "1 2 3\n"\
+            "4 5 6\n"\
+            "0 7 8\n"
+        s = Solution()
+        expect = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 0],
+        ]
+
+        s.parse(inp)
+
+        self.assertEqual(expect, s.goal_state.matrix)
+
+    def test_parse_goal_state_normal(self):
+        """Test that the zero is in the correct index in the goal state."""
+        inp = "8\n"\
+            "5\n"\
+            "1 2 3\n"\
+            "4 5 6\n"\
+            "0 7 8\n"
+        s = Solution()
+        expect = [
+            [1, 2, 3],
+            [4, 5, 0],
+            [6, 7, 8],
+        ]
+
+        s.parse(inp)
+
+        self.assertEqual(expect, s.goal_state.matrix)
+
+    def test_parse_init_state_size_three(self):
+        """Test that the init state reading with size 3."""
+        inp = "8\n"\
+            "-1\n"\
+            "1 2 3\n"\
+            "4 5 6\n"\
+            "0 7 8\n"
+        s = Solution()
+        expect = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [0, 7, 8],
+        ]
+
+        s.parse(inp)
+
+        self.assertEqual(expect, s.init_state.matrix)
+
+    def test_parse_init_state_size_four(self):
+        """Test that the init state reading with size 4."""
+        inp = "15\n"\
+            "-1\n"\
+            "1 2 3 9\n"\
+            "4 5 6 10\n"\
+            "0 7 8 11\n"\
+            "12 13 14 15\n"
+        s = Solution()
+        expect = [
+            [1, 2, 3, 9],
+            [4, 5, 6, 10],
+            [0, 7, 8, 11],
+            [12, 13, 14, 15],
+        ]
+
+        s.parse(inp)
+
+        self.assertEqual(expect, s.init_state.matrix)
+
+    def test_parse_init_state_size_five(self):
+        """Test that the init state reading with size 5."""
+        inp = "24\n"\
+            "-1\n"\
+            "1 2 3 9 16\n"\
+            "4 5 6 10 17\n"\
+            "0 7 8 11 18\n"\
+            "12 13 14 15 19\n"\
+            "20 21 22 23 24\n"
+        s = Solution()
+        expect = [
+            [1, 2, 3, 9, 16],
+            [4, 5, 6, 10, 17],
+            [0, 7, 8, 11, 18],
+            [12, 13, 14, 15, 19],
+            [20, 21, 22, 23, 24],
+        ]
+
+        s.parse(inp)
+
+        self.assertEqual(expect, s.init_state.matrix)
 
 
 if __name__ == "__main__":
