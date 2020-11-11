@@ -11,6 +11,7 @@ class Coordinate:
         self.col = col
 
     def __repr__(self):
+        """Return repr(self)."""
         return f"Coordinate({self.row}, {self.col})"
 
     def __eq__(self, other):
@@ -44,6 +45,7 @@ class Action:
         self.delta = zero_delta
 
     def __repr__(self):
+        """Return repr(self)."""
         return f"Action({self.name}, {self.delta})"
 
 
@@ -67,12 +69,15 @@ class State:
         self.matrix_size = len(matrix)
 
     def __repr__(self):
+        """Return repr(self)."""
         return f"State({self.matrix})"
 
     def __eq__(self, other):
+        """Return self == other."""
         return self.matrix == other.matrix
 
     def __hash__(self):
+        """Return hash(self)."""
         return hash(tuple(tuple(row) for row in self.matrix))
 
     @property
@@ -99,8 +104,8 @@ class State:
 
     def successors(self):
         """
-        Return all tuples with successor states and
-        the action needed to create the state.
+        Return [(State, Action)] - a list of tuples with all successor states
+        with the corresponding moves to them.
         """
         zer_coord = self.coordinates[0]
         legal_moves = [
@@ -120,6 +125,8 @@ class State:
 
 
 class Node:
+    """Represents a node in the state tree."""
+
     def __init__(self, state, goal_state, parent=None, action_name=None):
         self.state = state
         self.heuristic = self.state.heuristic(goal_state)
@@ -128,13 +135,22 @@ class Node:
         self.action_name = action_name
 
     def f(self):
+        """
+        Return the evaluation f(self) where
+        f(self) = g(self) + h(self)
+        g(self) ::= the cost to get to the state i.e. its depth
+        h(self) ::= calculated heuristics of the state
+        """
         return self.depth + self.heuristic
 
     def __lt__(self, other):
+        """Return self < other."""
         return self.f() < other.f()
 
 
 class Solution:
+    """Utility class to help with the solution of the specific problem."""
+
     def __init__(self):
         self.init_state = None
         self.goal_state = None
@@ -172,13 +188,17 @@ class Solution:
 
     def solve(self):
         """
-        Solve the problem using IDA* algorithm and store the solution
+        Solve the problem using A* algorithm and store the solution
         in `self.output`.
         """
         path = self.__astar(self.init_state, self.goal_state)
         self.output = str(len(path)) + "\n" + "\n".join(path) + "\n"
 
     def __astar(self, root, goal):
+        """
+        Return the optimal path from `root` to `goal`
+        using the A* algorithm.
+        """
         if root == goal:
             return []
 
